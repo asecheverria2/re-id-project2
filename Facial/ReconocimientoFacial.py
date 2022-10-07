@@ -1,8 +1,20 @@
 import cv2
 import os
+from utils.metrics.Timer import Timer
+from utils.metrics.measuring import tracing_start, tracing_mem
 
+def write_txt(path, lines):
+    with open(path, 'w') as f:
+        for line in lines:
+            f.write(line)
 def Recon_Facial():
-	dataPath = 'Data' #Cambia a la ruta donde hayas almacenado Data
+	n = 2
+	run = 'run_1_1'
+	timer = Timer()
+	timer.start()
+	tracing_start()
+	base_path = os.path.join('Facial/', run)
+	dataPath = 'Facial/Data' #Cambia a la ruta donde hayas almacenado Data
 	imagePaths = os.listdir(dataPath)
 	print('imagePaths=',imagePaths)
 
@@ -10,12 +22,12 @@ def Recon_Facial():
 
 	# Leyendo el modelo
 
-	face_recognizer.read('modeloLBPHFace.xml')
+	face_recognizer.read('Facial/modeloLBPHFace.xml')
 
 	#cap = cv2.VideoCapture(0,cv2.CAP_DSHOW)
-	cap = cv2.VideoCapture('Angel.mp4')
+	cap = cv2.VideoCapture('Facial/Angel.mp4')
 
-	faceClassif = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+	faceClassif = cv2.CascadeClassifier('Facial/haarcascade_frontalface_default.xml')
 
 	while True:
 		ret,frame = cap.read()
@@ -47,4 +59,9 @@ def Recon_Facial():
 
 	cap.release()
 	cv2.destroyAllWindows()
+	timer.end()
+	print(f'Processing time": {timer.calculate_time()}')
+	peak = tracing_mem()
+	write_txt(os.path.join(base_path, f'results_{n}.txt'),
+			  [f'Processing time: {timer.calculate_time()}', f'Peak size in MB: {peak}'])
 

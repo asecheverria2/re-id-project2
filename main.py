@@ -21,7 +21,8 @@ if __name__ == '__main__':
     model_name = 'color'
     output_folder_path = 'outputs/video/color-silhouette/color/'
     base_path = os.path.join(output_folder_path, run)
-
+    print("inicio facial")
+    Recon_Facial()
 
     timer = Timer()
     timer.start()
@@ -56,6 +57,7 @@ if __name__ == '__main__':
     # id_model = IdentificationModel(model_path='models/own_models/experiments/Pamela/silueta_2/experiment_0/model_3.h5')  # mask model
     # id_model = IdentificationModel(model_path='models/own/experiments/Pamela/color_silueta/experiment_0/model_3.h5')  # double branch model
 
+
     fourcc = cv2.VideoWriter_fourcc(*'XVID')
     writer = None
     (h, w) = (None, None)
@@ -71,8 +73,6 @@ if __name__ == '__main__':
         cv2.imshow("Output", o)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
-
-    Recon_Facial()
 
     writer.release()
     cv2.destroyAllWindows()
