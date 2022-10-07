@@ -21,7 +21,7 @@ class Camera:
         logs = []
         logs_header = ['count', 'class', 'accuracy', 'detection time', 'identification time', 'processing time', 'pre-processing time']
         self.cap.set(cv2.CAP_PROP_FPS, 25)
-        lbp_2 = LocalBinaryPatterns(3)
+        #lbp_2 = LocalBinaryPatterns(3) # textura lbp
         counter = 0
         detector_timer = Timer()
         identificator_timer = Timer()
@@ -55,22 +55,22 @@ class Camera:
                     x2, y2 = r["rois"][0][2], r["rois"][0][3]
 
                     # cropping texture and image with bounding box coordinates
-                    # mask_cp = crop_frame(x1, x2, y1, y2, mask_cp).astype('uint8') / 255  # normalization
+                    # mask_cp = crop_frame(x1, x2, y1, y2, mask_cp).astype('uint8') / 255  # normalization #mask_cp = crop_frame(x1, x2, y1, y2, mask_cp).astype('uint8') # color
                     mask_cp = crop_frame(x1, x2, y1, y2, mask_cp).astype('uint8')  # normalization
                     cropped_frame = crop_frame(x1, x2, y1, y2, masked_image).astype('uint8')
                     cropped_frame = cv2.resize(cropped_frame, (40, 40))
                     mask_cp = cv2.resize(mask_cp, (40, 40))
                     # color transformation
-                    cropped_frame = cv2.cvtColor(cropped_frame, cv2.COLOR_BGR2RGB)
-                    mask_cp = cv2.cvtColor(mask_cp, cv2.COLOR_BGR2RGB)
+                    cropped_frame = cv2.cvtColor(cropped_frame, cv2.COLOR_BGR2RGB) #cropped_frame color sin fondo
+                    # mask_cp = cv2.cvtColor(mask_cp, cv2.COLOR_BGR2RGB)
 
-                    # mask_cp = cv2.cvtColor(mask_cp, cv2.COLOR_GRAY2RGB)
+                    mask_cp = cv2.cvtColor(mask_cp, cv2.COLOR_GRAY2RGB) #mask_cp silueta sin fondo
                     # image filtering using LBP method
                     # lbp_image = lbp_2.lbp(cropped_frame)   # normalization
 
                     # resizing images
-                    #mask_cp = cv2.resize(mask_cp, (40, 40))
-                    # cropped_frame = cv2.resize(cropped_frame, (40, 40))
+                    mask_cp = cv2.resize(mask_cp, (40, 40))
+                    cropped_frame = cv2.resize(cropped_frame, (40, 40))
                     # lbp_image = cv2.resize(lbp_image, (40, 40))
 
                     # reshaping - because it will specify channels number
@@ -84,12 +84,12 @@ class Camera:
                 # (start) identification flow
                     identificator_timer.start()
                     # predicted_name, accuracy = id_model.identify([[mask_cp], [lbp_image/255]])
-                    #predicted_name, accuracy = id_model.identify([[mask_cp]])
+                    # predicted_name, accuracy = id_model.identify([[mask_cp]])
                     # predicted_name, accuracy = id_model.identify([[lbp_image/255]])
-                    #predicted_name, accuracy = id_model.identify([[cropped_frame]])  # color
+                    predicted_name, accuracy = id_model.identify([[cropped_frame]])  # color
 
 
-                    predicted_name, accuracy = id_model.identify([[mask_cp]])  # silhouette
+                    # predicted_name, accuracy = id_model.identify([[mask_cp]])  # silhouette
                     # predicted_name, accuracy = id_model.identify([[cropped_frame], [mask_cp]])  # combined
                     identificator_timer.end()
                 # (end) identification flow

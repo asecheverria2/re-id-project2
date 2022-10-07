@@ -16,9 +16,9 @@ def write_txt(path, lines):
 if __name__ == '__main__':
 
     n = 2
-    run = 'run_1_5'
-    model_name = 'silhouette'
-    output_folder_path = 'outputs/video/color-silhouette/silhouette/'
+    run = 'run_1_1'
+    model_name = 'color'
+    output_folder_path = 'outputs/video/color-silhouette/color/'
     base_path = os.path.join(output_folder_path, run)
 
 
@@ -42,9 +42,9 @@ if __name__ == '__main__':
     if model_name == 'combined':
         id_model = IdentificationModel(
             model_path='models/color-silhouette/own/color_silueta/experiment_0/model_2.h5')  # double input model
-    if model_name == 'silhouette':
-        id_model = IdentificationModel(
-            model_path='models/color-silhouette/own/silueta_2/experiment_0/model_1.h5')  # double input model
+    #if model_name == 'silhouette':
+    #    id_model = IdentificationModel(
+    #        model_path='models/color-silhouette/own/silueta_2/experiment_0/model_1.h5')  # double input model
     if model_name == 'color':
         id_model = IdentificationModel(
             model_path='models/color-silhouette/own/color/experiment_0/model_1.h5')  # silhouette input model#3

@@ -81,7 +81,7 @@ def image_branch(input_shape):
 
 
 def multi_input_model():
-    a =image_branch((40, 40, 3))
+    a = image_branch((40, 40, 3))
     c = cnn_branch()
     fussion = keras.layers.concatenate([a.output, c.output])
     d = keras.layers.Dense(800, activation='relu')(fussion)

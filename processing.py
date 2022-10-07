@@ -175,7 +175,7 @@ def crete_dir(path):
         os.mkdir(path)
         return True
 
-
+# silueta en imagenes
 def generate_masks_datasets(parent_root, target_root):
     model = MaskRCNN()
     for person in os.listdir(parent_root):
@@ -277,7 +277,7 @@ def generate_dataset_with_lbp(parent_root, target_root, csv_path):
 
     write_csv(csv_path, header, data)
 
-
+# generar dataset imagenes a color eliminando el fondo
 def generate_masked_dataset(parent_root, target_root, csv_path):
     """
     This function will generate cropped images dataset with background removal
