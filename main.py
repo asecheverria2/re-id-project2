@@ -7,6 +7,7 @@ from utils.MaskRCNN import MaskRCNN
 from utils.IdentificationModel import IdentificationModel
 from utils.metrics.measuring import tracing_start, tracing_mem
 from utils.metrics.Timer import Timer
+from Facial.ReconocimientoFacial import Recon_Facial
 
 def write_txt(path, lines):
     with open(path, 'w') as f:
@@ -49,6 +50,7 @@ if __name__ == '__main__':
         id_model = IdentificationModel(
             model_path='models/color-silhouette/own/color/experiment_0/model_1.h5')  # silhouette input model#3
 
+
     # second work
     # id_model = IdentificationModel(model_path='models/own/experiments/Pamela/own/color/experiment_0/model_3.h5')  # masked image model
     # id_model = IdentificationModel(model_path='models/own_models/experiments/Pamela/silueta_2/experiment_0/model_3.h5')  # mask model
@@ -69,6 +71,8 @@ if __name__ == '__main__':
         cv2.imshow("Output", o)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
+
+    Recon_Facial()
 
     writer.release()
     cv2.destroyAllWindows()
