@@ -11,6 +11,7 @@
       <excludeFolder url="file://$MODULE_DIR$/tf_model_train/models" />
       <excludeFolder url="file://$MODULE_DIR$/Datasets" />
       <excludeFolder url="file://$MODULE_DIR$/models" />
+      <excludeFolder url="file://$MODULE_DIR$/venv" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.7 (re-id-project2)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
