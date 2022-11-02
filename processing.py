@@ -392,7 +392,6 @@ def process_dataset_with_lbp(parent_root, target_root):
 
 
 def generate_dpm_dataset(parent_root, target_root):
-    model = MaskRCNN()
     """
     This function will generate a dataset filtered with LBP, each processed pedestrian capture will be cropped in three images. 
     :param parent_root: Base dataset path.
@@ -401,49 +400,59 @@ def generate_dpm_dataset(parent_root, target_root):
     """
     for person in os.listdir(parent_root):
         person_root = os.path.join(parent_root, person)
-        target_person_root = os.path.join(target_root, person)
         print('Working on: {} route'.format(person_root))
         counter = 0
+
+        person_head_root = os.path.join(target_root, "Head", person)
+        person_torso_root = os.path.join(target_root, "Torso", person)
+        person_legs_root = os.path.join(target_root, "Legs", person)
+        if os.path.exists(person_head_root) is False:
+            print("Creating {} directory".format(person_head_root))
+            crete_dir(person_head_root)
+        if os.path.exists(person_torso_root) is False:
+            print("Creating {} directory".format(person_torso_root))
+            crete_dir(person_torso_root)
+        if os.path.exists(person_legs_root) is False:
+            print("Creating {} directory".format(person_legs_root))
+            crete_dir(person_legs_root)
+
         for instance in os.listdir(person_root):
             counter += 1
             name = 'person_{}_{}'.format(person, counter)
             print('Processing {} instance ...'.format(name))
             source_path = os.path.join(person_root, instance)
-            instance_root = os.path.join(target_person_root, name)
-            if os.path.exists(instance_root) is False:
-                print("Creating {} directory".format(instance_root))
-                os.mkdir(instance_root)
             print('Opening {} file'.format(source_path))
             image = cv2.imread(source_path, cv2.COLOR_BGR2RGB)
             if os.path.exists(source_path) is False:
                 break
-            image_cp = image.copy()
-            r, _ = model.segment(image)
-            if len(r['masks']) != 0 and len(r['rois']) != 0:
-                for i in range(len(r["rois"])):
-                    mask = r["masks"][:, :, i].astype(int)
-                    masked_image = apply_mask(image_cp, mask)
-                    h_crop, t_crop, l_crop = dpm(r["rois"][i], masked_image)
-                    head_lbp = lbp(h_crop)
-                    torso_lbp = lbp(t_crop)
-                    legs_lbp = lbp(l_crop)
+            #image_cp = image.copy()
+            #r, _ = model.segment(image)
+            r = [125, 347, 229, 385]
 
-                    head_lbp = cv2.cvtColor(head_lbp.astype('uint8') * 255, cv2.COLOR_GRAY2RGB)
-                    torso_lbp = cv2.cvtColor(torso_lbp.astype('uint8') * 255, cv2.COLOR_GRAY2RGB)
-                    legs_lbp = cv2.cvtColor(legs_lbp.astype('uint8') * 255, cv2.COLOR_GRAY2RGB)
+            #for i in range(len(r["rois"])):
+                    #mask = r["masks"][:, :, i].astype(int)
+                    #masked_image = apply_mask(image_cp, mask)
+            h_crop, t_crop, l_crop = dpm(r, image)
+            #head_lbp = lbp(h_crop)
+            #torso_lbp = lbp(t_crop)
+            #legs_lbp = lbp(l_crop)
 
-                    print('Saving {} dpm '.format(name))
-                    head_path = os.path.join(instance_root, 'head.jpg')
-                    torso_path = os.path.join(instance_root, 'torso.jpg')
-                    legs_path = os.path.join(instance_root, 'legs.jpg')
+            #head_lbp = cv2.cvtColor(head_lbp.astype('uint8') * 255, cv2.COLOR_GRAY2RGB)
+            #torso_lbp = cv2.cvtColor(torso_lbp.astype('uint8') * 255, cv2.COLOR_GRAY2RGB)
+            #legs_lbp = cv2.cvtColor(legs_lbp.astype('uint8') * 255, cv2.COLOR_GRAY2RGB)
 
-                    print('Saving files: \n{}\n{}\n{}'.format(head_path, torso_path, legs_path))
+            print('Saving {} dpm '.format(name))
+            head_path = os.path.join(person_head_root, 'head.jpg')
+            torso_path = os.path.join(person_torso_root, 'torso.jpg')
+            legs_path = os.path.join(person_legs_root, 'legs.jpg')
 
-                    cv2.imwrite(head_path, head_lbp)
-                    cv2.imwrite(torso_path, torso_lbp)
-                    cv2.imwrite(legs_path, legs_lbp)
+            print('Saving files: \n{}\n{}\n{}'.format(head_path, torso_path, legs_path))
 
-                    print('Successfully created files')
+            cv2.imwrite(head_path, h_crop)
+            cv2.imwrite(torso_path, t_crop)
+            cv2.imwrite(legs_path, l_crop)
+
+            print('Successfully created files')
 
 
 def count_images(dataset_path):
