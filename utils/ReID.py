@@ -38,9 +38,9 @@ def dpm(roi, frame):
 
     height = abs(roi[2] - roi[0])
 
-    h_crop = crop_frame(roi[0], int(roi[0] + height / 3), roi[1], roi[3], frame)
-    t_crop = crop_frame(int(roi[0] + height / 3), int(roi[0] + height * (2 / 3)), roi[1], roi[3], frame)
-    l_crop = crop_frame(int(roi[0] + height * (2 / 3)), roi[2], roi[1], roi[3], frame)
+    h_crop = crop_frame(roi[0], int(roi[0] + height / 4), roi[1], roi[3], frame)
+    t_crop = crop_frame(int(roi[0] + height / 4), int(roi[0] + height * (1 / 2)), roi[1], roi[3], frame)
+    l_crop = crop_frame(int(roi[0] + height * (1 / 2)), roi[2], roi[1], roi[3], frame)
 
     return h_crop, t_crop, l_crop
 

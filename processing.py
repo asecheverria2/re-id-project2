@@ -425,14 +425,14 @@ def generate_dpm_dataset(parent_root, target_root):
             image = cv2.imread(source_path, cv2.COLOR_BGR2RGB)
             if os.path.exists(source_path) is False:
                 break
-            #image_cp = image.copy()
-            #r, _ = model.segment(image)
-            r = [125, 347, 229, 385]
+
+            row, colum, channel = image.shape
+            roi = [0, 0, row, colum]
 
             #for i in range(len(r["rois"])):
                     #mask = r["masks"][:, :, i].astype(int)
                     #masked_image = apply_mask(image_cp, mask)
-            h_crop, t_crop, l_crop = dpm(r, image)
+            h_crop, t_crop, l_crop = dpm(roi, image)
             #head_lbp = lbp(h_crop)
             #torso_lbp = lbp(t_crop)
             #legs_lbp = lbp(l_crop)
