@@ -442,9 +442,9 @@ def generate_dpm_dataset(parent_root, target_root):
             #legs_lbp = cv2.cvtColor(legs_lbp.astype('uint8') * 255, cv2.COLOR_GRAY2RGB)
 
             print('Saving {} dpm '.format(name))
-            head_path = os.path.join(person_head_root, 'head.jpg')
-            torso_path = os.path.join(person_torso_root, 'torso.jpg')
-            legs_path = os.path.join(person_legs_root, 'legs.jpg')
+            head_path = os.path.join(person_head_root, f'head{counter}.jpg')
+            torso_path = os.path.join(person_torso_root, f'torso{counter}.jpg')
+            legs_path = os.path.join(person_legs_root, f'legs{counter}.jpg')
 
             print('Saving files: \n{}\n{}\n{}'.format(head_path, torso_path, legs_path))
 
